@@ -47,7 +47,10 @@ class Habit(models.Model):
     related_habit = models.ForeignKey(
         'self',
         on_delete=models.SET_NULL,
-        **NULLABLE)
+        **NULLABLE,
+        verbose_name='Связанная привычка',
+        help_text='Привычка, которая связана с другой привычкой'
+    )
 
     periodicity = models.PositiveIntegerField(
         default=1,
@@ -62,7 +65,7 @@ class Habit(models.Model):
         verbose_name='Вознаграждение ',
         help_text='Чем пользователь должен себя вознаградить после выполнения.')
 
-    duration =models.DurationField(
+    duration = models.DurationField(
         verbose_name='Время на выполнение (сек)',
         help_text='Время, которое  потратит пользователь на выполнение привычки.',
         **NULLABLE,
@@ -73,5 +76,10 @@ class Habit(models.Model):
         verbose_name='Признак публичности',
         help_text='Другие пользователи могли брать в пример чужие привычки.')
 
+    def __str__(self):
+        return f'Я буду {self.action} в {self.time}  {self.place}'
 
-
+    class Meta:
+        verbose_name = 'Привычка'
+        verbose_name_plural = 'Привычки'
+        ordering = ('pk',)
